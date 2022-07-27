@@ -1,0 +1,106 @@
+---
+title: NTP Linux Server Setup
+date: '2022-07-27'
+tags: ['linux', 'tutorial']
+draft: false
+summary: Easily configure NTP on you server for easy synchronisation of time.
+images: []
+layout: PostLayout
+canonicalUrl: https://linuxpage.dev/blog/ntp-linux-server-setup
+authors: ['default']
+---
+
+<TOCInline toc={props.toc} asDisclosure />
+
+## What the Heck is this NTP?
+
+NTP is a timekeeper which receives time from an NTP server, which in turn, receives precise time from sources like an atomic clock or GPS and synchronizes your computer's local time with it.
+
+## Why is NTP so Important?
+
+Because,
+
+> "Good Security Starts With Good Timing."
+
+While it's not a required thing, it's recommended to have your system clock Synchronised with the NTP server for accurate timestamping.
+
+On Servers where if any Error occurs you need to trace back when that issue happened and having your Clock synchronised helps a lot for tracing and relating all the service issues.
+
+Also if you have services like Cron Jobs active having accurate system timing is a must so the system tasks will execute exactly when needed.
+
+## Installing NTP on Your Linux Server.
+
+While I tried this on Ubuntu 20.04 This can work on any Unix-based Operating System
+
+### 1. Introducing Chrony
+
+While there are other packages which do the job like timedatectl or timesyncd chrony is a much better option compared to others.
+
+Installing chrony will create a daemon named **chronyd** and a command-line tool named **chronyc** for managing its service.
+
+### 2. Installing Chrony and Enabling The Chrony Service
+
+On Debian/ Ubuntu Systems you can directly install using apt
+
+```bash
+sudo apt install chronyd
+```
+
+For Red hat/Fedora use yum
+
+```bash
+sudo yum install chronyd
+```
+
+Start the installation of chronyd using systemctl
+
+```bash
+sudo systemctl start chronyd
+```
+
+### 3. Configuring NTP server
+
+Configuration file for your Chronyd is at **/etc/chrony/chrony.conf**
+You can view the contents of the file using the following command
+
+```bash
+cat /etc/chrony/chrony.conf
+```
+
+You will see some NTP servers pre-configured in configuration file
+
+```
+pool ntp.ubuntu.com        iburst maxsources 4
+pool 0.ubuntu.pool.ntp.org iburst maxsources 1
+pool 1.ubuntu.pool.ntp.org iburst maxsources 1
+pool 2.ubuntu.pool.ntp.org iburst maxsources 2
+```
+
+If you want you can change this NTP servers with the one you want to use.
+
+I recommend finding servers nearest to your server location for lower latency
+
+### 3. Verify and Apply new configurations
+
+You can check if NTP servers are working or not by running the following command
+
+```bash
+chronyc activity
+```
+
+It will list the information about synchronisation like the example below.
+
+```
+200 OK
+8 sources online
+0 sources offline
+0 sources doing burst (return to online)
+0 sources doing burst (return to offline)
+0 sources with unknown address
+```
+
+Here we can see that 8 sources are online which means our synchronisation is working.
+
+### 4. Celebrate 🥳
+
+Congratulations! You have successfully configured NTP on your Linux Server.
