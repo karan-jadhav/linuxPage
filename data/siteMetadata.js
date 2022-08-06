@@ -1,5 +1,5 @@
 const siteMetadata = {
-  title: 'LinuxPage',
+  title: 'LinuxPage - Articles About Linux And Open-Source',
   author: 'Karan Jadhav',
   headerTitle: 'LinuxPage',
   description: 'LinuxPage is a blog for Linux Enthusiasts',

@@ -1,0 +1,57 @@
+---
+title: How to Update and Upgrade Ubuntu And Its Difference
+date: '2022-08-06'
+tags: ['tutorial', 'update']
+draft: false
+summary: In this areticle you will learn how to update and upgrade your system and difference between this commands
+images: []
+layout: PostLayout
+canonicalUrl:
+authors: ['default']
+---
+
+<TOCInline toc={props.toc} asDisclosure />
+
+## Is It required to update your Linux system?
+
+The simple answer is "YES".
+
+You should update your system because updating makes your system stable. It also removes known vulnerabilities which can cause dangerous harm to your system. And apart from security, there are also new feature releases. So you should update your system for this all.
+
+## How To Update?
+
+Updating your system is a simple combination of running two commands update and upgrade
+
+```bash
+sudo apt update && sudo apt upgrade -y
+```
+
+Here we have used && which is used to combine multiple commands in single command in our case we combined update and upgrade command. And -y at end of the command is a argument which will skip confirmation prompt asked at upgrading and directly process the system upgrade.
+
+## Update VS Upgrade
+
+Lots of people might think that apt update will update their system. but it's not the correct function of that command.
+
+If you check the previously given command there are two command update and upgrade. The update will fetch apt repositories and check if there is any update required. If you have used windows it's just like "Check for Update" whose whole function is just to check if an update is needed. And upgrade command is the one which will upgrade existing packages and also the system.
+
+In windows, if you go to setting and click update it only updates the windows but in Linux, it's a little different. Linux checks for everything. It will check if there is any system update available or not and with that, it will also check for software installed in the system if they need any update. and it will update everything.
+
+## What After Update and Upgrade?
+
+### AutoClean
+
+autoclean command will clear the useless files downloaded while installing the new packages but are no longer needed
+
+**Usage:**
+
+```bash
+sudo apt autoclean
+```
+
+### AutoRemove
+
+autoremove will remove the packages that are automatically installed with some other packages but are no longer needed for work
+
+```bash
+sudo apt autoremove
+```
