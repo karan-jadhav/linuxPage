@@ -1,0 +1,97 @@
+---
+title: (Resolved) gh (GitHub Cli) update issue Due to expired GPG keys
+date: '2022-09-05'
+tags: ['fixes']
+draft: false
+summary: Here a article on quick fix if you have encountered issues while updating your system due to expired GPG keys of GitHub Cli tool gh.
+images: []
+layout: PostLayout
+canonicalUrl:
+authors: ['default']
+---
+
+# (Resolved) gh (GitHub Cli) update issue Due to expired GPG keys
+
+## Issue
+
+I was trying to update my system using `sudo apt update` and I got the following error:
+
+![ssh tunneling](/static/images/github_cli_expired_gpg/error_image.png)
+
+This error was due to expired GPG keys of GitHub Cli tool gh.
+
+You can read more about this issue on this [GitHub issue](https://github.com/cli/cli/issues/6175).
+
+## Solution
+
+You will first need to remove the expired GPG keys from your system. You can do this by running the following command:
+
+```bash
+sudo apt-key del C99B11DEB97541F0
+```
+
+NOTE: C99B11DEB97541F0 is the expired GPG key.
+
+You may see a Warning message like this:
+
+```bash
+Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).
+```
+
+You can ignore this warning. This is because the `apt-key` command is deprecated and you should use `gpg` instead. But for now, we will use `apt-key` to remove the expired GPG keys as it solves our issue.
+
+After that remove the GitHub Cli repository from your system by running the following command:
+
+```bash
+sudo rm -rf /etc/apt/sources.list.d/github-cli.list
+```
+
+Now you can try to update your system using `sudo apt update` command. It should work now.
+
+## Install Latest Version of GitHub Cli
+
+Now, if you want you can install latest version of GitHub Cli by running the following command:
+
+```bash
+sudo apt install gh
+```
+
+If you are not using Ubuntu, you can find the installation instructions for your operating system on the [GitHub Cli official website](https://cli.github.com/manual/installation).
+
+If this package it not available for your operating system, you can download the latest version of GitHub Cli from the [GitHub Cli releases page](https://github.com/cli/cli/releases/latest) page.
+
+Here is how to install the Downloaded binaries on You linux system:
+
+For ubuntu and debian based systems:
+
+```bash
+sudo apt install ./gh_1.14.0_linux_amd64.deb
+```
+
+For Fedora:
+
+```bash
+sudo dnf install ./gh_1.14.0_linux_amd64.rpm
+```
+
+For CentOS:
+
+```bash
+sudo yum install ./gh_1.14.0_linux_amd64.rpm
+```
+
+For Arch Linux:
+
+```bash
+sudo pacman -U ./gh_1.14.0_linux_amd64.rpm
+```
+
+For Alpine Linux:
+
+```bash
+sudo apk add ./gh_1.14.0_linux_amd64.apk
+```
+
+## Conclusion
+
+I hope this article helped you to resolve the issue of expired GPG keys of GitHub Cli tool gh. If you have any questions or suggestions, please feel free to leave a comment below.
