@@ -1,0 +1,90 @@
+---
+title: Linux File Permissions Explained With Examples
+date: '2022-09-15'
+tags: ['tutorial']
+draft: false
+summary: in this article we will explore the world of linux file permissions in detailes
+images: []
+layout: PostLayout
+canonicalUrl:
+authors: ['default']
+---
+
+<TOCInline toc={props.toc} asDisclosure />
+
+## Why Are File Permissions Required In Linux?
+
+In Linux, everything is a file. Even a directory is a file. So, if everything is a file, then why do we need file permissions? The answer is simple. We need file permissions to control who can access a file and who can't. For example, if you have a file that contains sensitive information, you don't want everyone to access it. You want only the authorized users to access it. So, you can set the file permissions to allow only the authorized users to access it. In this way, you can control who can access a file and who can't. This is the main reason why file permissions are required in Linux.
+
+## Which Type of File Permissions Are Available in Linux?
+
+In Linux, there are three types of file permissions. They are:
+
+- Read
+- Write
+- Execute
+
+Using these three file permissions, you can control who can access a file and who can't. Now, let's see how these file permissions work in Linux. We will also see some examples to understand it better. So, let's get started.
+
+## How to Check File Permissions in Linux?
+
+Before we start, let's see how to check file permissions in Linux. To check file permissions in Linux, you can use the ls command. The ls command is used to list the contents of a directory. You can use the -l option with the ls command to see the file permissions. Let's see an example.
+
+```bash
+$ ls -l
+total 0
+-rw-r--r-- 1 root root 0 Sep 15 12:00 file1.txt
+-rw-r--r-- 1 root root 0 Sep 15 12:00 file2.txt
+-rw-r--r-- 1 root root 0 Sep 15 12:00 file3.txt
+```
+
+In the above example, we have three files. In this example output, you can see the file permissions of each file. The first character in the file permissions is the file type. In this example, all the files are regular files. So, the first character is a dash (-). The next nine characters are the file permissions. The first three characters are the file permissions for the owner. The next three characters are the file permissions for the group. The last three characters are the file permissions for others. In the above example, the owner has read and write permissions. The group has read permissions. And, others have read permissions. So, the file permissions are rw-r--r--. Now, let's see how to change file permissions in Linux.
+
+## How to Change File Permissions in Linux?
+
+To change file permissions in Linux, you can use the chmod command. The chmod command is used to change the file permissions. You can use the chmod command to change the file permissions for the owner, group, and others. Let's see an example.
+
+```bash
+$ chmod 644 file1.txt
+```
+
+In the above example you can see we have used the numbers to represent the file permissions. Below is the table that shows the file permissions for each number.
+
+| Number | File Permissions |
+| ------ | ---------------- |
+| 0      | ---              |
+| 1      | --x              |
+| 2      | -w-              |
+| 3      | -wx              |
+| 4      | r--              |
+| 5      | r-x              |
+| 6      | rw-              |
+| 7      | rwx              |
+
+This numbers make it easy to change the file permissions. In the above example, we have used the number 644. This number represents the file permissions rw-r--r--. So, the above command will change the file permissions to rw-r--r--. Now, let's see how to change the file permissions for the owner, group, and others.
+
+```bash
+$ chmod u=rwx,g=r,o=r file1.txt
+```
+
+In the above example, we have used the letters u, g, and o to represent the owner, group, and others. The u represents the owner. The g represents the group. And, the o represents others. After the u, g, and o, we have used the equal sign (=) to represent the file permissions. After the equal sign, we have used the letters r, w, and x to represent the file permissions. The r represents read. The w represents write. And, the x represents execute. So, the above command will change the file permissions to rwxr--r--. Now, let's see how to change the file permissions for the owner, group, and others using the numbers.
+
+```bash
+$ chmod 754 file1.txt
+```
+
+As you can see numbers example is short and easy to remember. So, you can use the numbers to change the file permissions. Here we have used the number 754. This number represents the file permissions rwxr-xr--. So, the above command will change the file permissions to rwxr-xr--.
+
+## How to Change File Permissions Recursively in Linux?
+
+In Linux, you can change the file permissions recursively. This means you can change the file permissions for all the files in a directory. To change the file permissions recursively, you can use the -R option with the chmod command. Let's see an example.
+
+```bash
+$ chmod -R 644 file1.txt
+```
+
+In the above example, we have used the -R option with the chmod command. This option will change the file permissions for all the files in the current directory. So, the above command will change the file permissions for all the files in the current directory to rw-r--r--.
+
+## Conclusion
+
+In this article, we have learned about the file permissions in Linux. We have also learned how to check, change, and change the file permissions recursively in Linux. I hope you have enjoyed this article. If you have any questions, please let me know in the comments section below.
