@@ -1,0 +1,83 @@
+---
+title: How To Use Cron Jobs in linux
+date: '2022-09-21'
+tags: ['tutorial']
+draft: true
+summary: in this article we will learn about how to use cron jobs to automate tasks
+images: []
+layout: PostLayout
+canonicalUrl:
+authors: ['default']
+---
+
+<TOCInline toc={props.toc} asDisclosure />
+
+## What is Cron Job
+
+Cron is a job scheduler available in Unix-like operating systems. It is used to schedule jobs to run periodically at fixed times, dates, or intervals.
+
+## How to use Cron Jobs
+
+### 1. Cron Job Syntax
+
+Cron jobs are scheduled using a syntax that defines five fields. The fields are separated by spaces and represent:
+
+- Minute (0-59)
+- Hour (0-23)
+- Day of the month (1-31)
+- Month (1-12)
+- Day of the week (0-6)
+
+### 2. Cron Job Examples
+
+#### 2.1. Run a command every 5 minutes
+
+```bash
+*/5 * * * * command
+```
+
+#### 2.2. Run a command every 5 minutes between 8am and 5pm
+
+```bash
+*/5 8-17 * * * command
+```
+
+#### 2.3. Run a command every 5 minutes between 8am and 5pm on Monday to Friday
+
+```bash
+*/5 8-17 * * 1-5 command
+```
+
+#### 2.4. Run a command every 5 minutes between 8am and 5pm on Monday to Friday in January
+
+```bash
+*/5 8-17 1 * 1-5 command
+```
+
+### 3. Cron Job Editor
+
+Cron jobs can be edited using the `crontab` command. The `crontab` command is used to install, deinstall, and list the crontabs of the current user.
+
+#### 3.1. List Cron Jobs
+
+```bash
+crontab -l
+```
+
+#### 3.2. Edit Cron Jobs
+
+```bash
+crontab -e
+```
+
+After running the above command, you will be prompted to select an editor. Select your preferred editor and add your cron jobs.
+
+#### 3.3. Remove Cron Jobs
+
+```bash
+crontab -r
+```
+
+## Conclusion
+
+In this article, we learned about how to use cron jobs to automate tasks. We also learned about the cron job syntax and how to use the cron job editor.
