@@ -1,0 +1,157 @@
+---
+title: Local VS Remote VS Dynamic SSH Tunneling
+date: '2022-07-29'
+tags: ['ssh', 'comparison']
+draft: false
+summary: In this Post you will learn about different ssh tuneling methods.
+images: []
+layout: PostLayout
+authors: ['default']
+---
+
+<TOCInline toc={props.toc} asDisclosure />
+
+## What Is SSH Tunneling?
+
+SSH tunnelling also referred to as SSH Port Forwarding is a simple way of Forwarding data between Systems on some specific port. Think of it as a normal tunnel where all data going and coming through that tunnel is encrypted by SSH.
+
+Check the image below for a better understanding.
+
+<Image
+    src="/local_vs_remote_ssh_tunnel/sshtunnel.png"
+    alt="SSH Tunneling"
+    width="1080"
+    height="720"
+/>
+
+## How does SSH Tunnel work?
+
+Before understanding how SSH Tunnel works let's understand how SSH works because Tunneling is based on top of the SSH.
+
+Whenever you ssh into a server SSH creates an encrypted connection to the server using PORT 22 and gives back Shell access to you. In this case, whatever data is transferred in SSH it is encrypted binary stream data.
+
+But SSH allows you to create a tunnel using which you can transfer any type of data at any specified port. This is generally called an SSH Tunnel.
+
+## Different Types of SSH Tunnels
+
+There are different types of tunnels but the most used types of tunnels are Local Tunnel, Remote Tunnel, and Dynamic Tunnel.
+
+### Local SSH tunnel
+
+As the name suggests local tunnelling or local port forwarding is when you want to send data received at your system to a remote server.
+
+Here is a diagram for the understanding of the local tunnelling flow.
+
+<Image
+    src="/local_vs_remote_ssh_tunnel/localtunneling.png"
+    alt="Local SSH Tunneling"
+    width="1080"
+    height="720"
+/>
+
+**Command Usage:**
+
+```bash
+ssh -L -N source_port:localhost:remote_port user@remote_host
+```
+
+**-L** : this flag refers to Local tunnel <br />
+**-N** : this flag is used to stop interactive session to be created which is the default behaviour of SSH. so no command will be executed. <br />
+**source_port** : this is port you are listening on your system <br />
+**remote_port** : this is the port server is listening on. <br />
+**user@remote_host** : this is server username and hostname to connect to <br />
+
+**Use Case:**
+
+Suppose there is a service running on a remote server for understanding purposes. consider there is a PostgreSQL database running on a server on PORT 5432 and for security reasons you don't want to expose that database to the internet using server's public port. But if you want to access that database here you can ssh to the server and use it but there can be cases where you want to use that database from your system because all codebase is at your local system. This is the best use case of Local SSH tunnelling.
+
+You can create a Local SSH tunnel to a remote server using the below command.
+
+```bash
+ssh -L -N 5432:localhost:5432 user@remote_host
+```
+
+In this example you created a tunnel to user@remote_host and all traffic coming to PORT 5432 at your system will get forwarded to PORT 5432 on a remote server.
+
+### Remote SSH Tunnel
+
+Remote SSH Tunneling sometimes also referred to as Remote Port forwarding or reverse tunnelling is a way to forward traffic from a remote server to your local system. You can think of it as your own ngrok service.
+
+Below is the diagram to understand the flow of Remote Tunneling.
+
+<Image
+    src="/local_vs_remote_ssh_tunnel/remotetunneling.png"
+    alt="Remote SSH Tunneling"
+    width="1080"
+    height="720"
+/>
+
+**Command Usage:**
+
+```bash
+ssh -R -N remote_port:localhost:local_port user@remote_host
+```
+
+**-R** : this flag will setup tunnel as Remote Tunnel <br />
+**-N** : this flag is used to stop interactive session to be created which is the default behaviour of SSH. so no command will be executed. <br />
+**remote_port** : this is the port server is listening on. <br />
+**source_port** : this is port you are listening on your system. <br />
+**user@remote_host** : this is server username and hostname to connect to <br />
+
+**Use Case:**
+
+If you know ngrok which is remote tunnelling SaaS Remote Tunneling is same as that.
+
+For understanding, think you have a web application running on your system at localhost:8008 and your friend in another part of the world wants to check your web application. But you don't want to host it yet on the server because it's not complete yet.
+
+This is the best use case of Remote Tunneling. You will create a remote tunnel to the server on Port 8080 and suppose the IP of your server is 162.10.1.1 (it's just a random IP). now your friend can access the server on 192.10.1.1:8080 and whatever data transfer happens on it, will be transferred to your localhost on Port 8008 running your web application locally.
+
+You can create a Remote SSH tunnel to the remote server using the below command.
+
+```bash
+ssh -R -N 8080:localhost:8008 user@remote_host
+```
+
+In this example you created a tunnel to user@remote_host and all traffic coming to PORT 8080 on the server will be forwarded to your local system on PORT 8008.
+
+### Dynamic SSH Tunnel
+
+This is one of my favourite Tunneling methods. Dynamic SSH Tunneling will allow you to create your Own Proxy. This will be a Socket Secure (SOCKS) proxy and it will allow your server to act as a proxy server to make requests on your behalf. And because it's SOCKS Proxy you are not limited to http traffic like normal proxies.You can use this proxy for any type of service at any PORT.
+
+I mostly use it for two use cases.
+
+1. As Proxy Server To Hide My Identity.
+2. As Middleman Server to access other private network services.
+
+Below Is the diagram which demonstrates the flow of This Tunneling.
+
+<Image
+    src="/local_vs_remote_ssh_tunnel/dunamictunneling.png"
+    alt="Dynamic SSH Tunneling"
+    width="1080"
+    height="720"
+/>
+
+**Command Usage:**
+
+```bash
+ssh -D local_port user@remote_host
+```
+
+**-D** : this flag will setup a Dynamic SSH Tunnel. <br/>
+**source_port** : this will be port on your system for proxy. <br/>
+**user@remote_host** : this is server username and hostname to connect to.
+
+**Use Case:**
+
+The best use case of this is obviously a proxy server. Suppose you are at Starbucks and you got an access to their WiFi. Because there are many people connected to the same WiFi there can be a chance that there is some hacker there trying to steal your information using a MITM (Man In The Middle) attack or any other. Here you can go for other proxies but there will be always a privacy risk in using others' infrastructure for your personal purpose. And here comes our Dynamic SSH Tunneling which will allow you to create a proxy connection to your Server somewhere in the cloud which will make requests on your behalf.
+
+You can also use this to bypass restrictions. Suppose you are in India and you want to watch some Web Series which is not available in India. you can easily create a free micro Instance in Google Cloud or in Amazon in the US or any other location and create a tunnel to it and boom. All your traffic is proxying through your server which is in another region. and you successfully bypassed all the local restrictions free of cost without any privacy concerns.
+
+You can create a Remote SSH tunnel to the remote server using the below command.
+
+```bash
+ssh -D 8888 user@remote_host
+```
+
+In this example, you connected to user@remote_host and it created a tunnel which is listening to localhost:8888 now you can go to your browser settings and add localhost:8888 as a custom proxy. it will then route all your traffic through your remote server.
